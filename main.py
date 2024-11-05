@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import ttk, font
+from tkinter import ttk, font, messagebox
 import datetime as dt
 import random
 
-
+# List of words to randomly choose from
 TEXT_TO_DISPLAY = [
     "the", "and", "for", "not", "are", "from", "your", "all", "have", "new", "more", "was", "will", "home",
     "about", "page", "has", "search", "free", "our", "one", "other", "information", "time", "they", "site",
@@ -70,7 +70,6 @@ TEXT_TO_DISPLAY = [
     "hosting", "rules", "final", "adult", "tickets", "thing", "centre", "requirements", "case", "under",
     "purchase", "seen", "home", "student", "photo"
 ]
-
 
 
 class MyApp(tk.Tk):
@@ -227,6 +226,23 @@ class MyApp(tk.Tk):
         print(words_per_minute)
 
         # TODO show new window at stop to show correct words and wpm
+
+        # This will display a message box with an OK button
+        messagebox.showinfo("Your results", f"You got {numer_of_correct_words} correct words and your words per minute is {words_per_minute}.")
+
+        # Restart text areas
+        self.text_to_show = "Press start button to begin when you are ready. After 3 seconds the text to write will show, when you finish typing it press Stop."
+        self.fixed_text_area.config(state="normal")  # Allow editing to update
+        self.fixed_text_area.delete(1.0, tk.END)  # Clear the current text
+        self.fixed_text_area.insert(tk.END, self.text_to_show)  # Insert new text
+
+        # Define a font with a larger size
+        text_font = font.Font(family="Arial", size=14)  # Change "Arial" and 14 as needed
+        # Apply the font to the entire text
+        self.fixed_text_area.tag_configure("large_font", font=text_font)
+        self.fixed_text_area.tag_add("large_font", "1.0", "end")
+
+        self.fixed_text_area.config(state="disabled")  # Disable editing again
 
 
 if __name__ == "__main__":
