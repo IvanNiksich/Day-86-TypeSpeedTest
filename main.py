@@ -1,6 +1,76 @@
 import tkinter as tk
 from tkinter import ttk, font
 import datetime as dt
+import random
+
+
+TEXT_TO_DISPLAY = [
+    "the", "and", "for", "not", "are", "from", "your", "all", "have", "new", "more", "was", "will", "home",
+    "about", "page", "has", "search", "free", "our", "one", "other", "information", "time", "they", "site",
+    "may", "what", "which", "their", "news", "out", "use", "any", "there", "see", "only", "his", "when",
+    "contact", "here", "business", "who", "also", "help", "get", "view", "online", "first", "been", "would",
+    "how", "were", "services", "some", "these", "click", "its", "like", "service", "than", "find", "price",
+    "date", "back", "top", "people", "had", "list", "name", "just", "over", "state", "year", "day", "into",
+    "email", "two", "health", "world", "next", "used", "work", "last", "most", "products", "music", "buy",
+    "data", "make", "them", "should", "product", "system", "post", "her", "city", "add", "policy", "number",
+    "such", "please", "available", "copyright", "support", "message", "after", "best", "software", "then",
+    "good", "video", "well", "where", "info", "rights", "public", "books", "high", "school", "through",
+    "each", "links", "review", "years", "order", "very", "privacy", "book", "items", "company", "read",
+    "group", "need", "many", "user", "said", "does", "set", "under", "general", "research", "university",
+    "mail", "full", "map", "reviews", "program", "life", "know", "games", "days", "management", "part",
+    "could", "great", "united", "hotel", "real", "item", "international", "center", "must", "store", "travel",
+    "comments", "made", "development", "report", "member", "details", "line", "terms", "before", "hotels",
+    "send", "right", "type", "because", "local", "those", "using", "results", "office", "education",
+    "national", "design", "take", "posted", "internet", "address", "community", "within", "states", "area",
+    "want", "phone", "shipping", "reserved", "subject", "between", "forum", "family", "long", "based",
+    "show", "even", "black", "check", "special", "prices", "website", "index", "being", "women", "much",
+    "sign", "file", "link", "open", "today", "technology", "south", "case", "project", "same", "pages",
+    "version", "section", "found", "sports", "house", "related", "security", "both", "county", "american",
+    "photo", "game", "members", "power", "while", "care", "network", "down", "computer", "systems", "three",
+    "total", "place", "following", "download", "without", "access", "think", "north", "resources", "current",
+    "posts", "media", "control", "water", "history", "pictures", "size", "personal", "since", "including",
+    "guide", "shop", "directory", "board", "location", "change", "white", "text", "small", "rating", "rate",
+    "government", "children", "during", "return", "students", "shopping", "account", "times", "sites",
+    "level", "digital", "profile", "previous", "form", "events", "love", "main", "call", "hours", "image",
+    "department", "title", "description", "shall", "property", "class", "still", "money", "quality",
+    "every", "listing", "content", "country", "private", "little", "visit", "save", "tools", "reply",
+    "customer", "december", "compare", "movies", "include", "college", "value", "article", "card", "jobs",
+    "provide", "food", "source", "different", "press", "learn", "sale", "around", "print", "course", "job",
+    "process", "teen", "room", "stock", "training", "join", "science", "categories", "advanced", "west",
+    "sales", "look", "english", "left", "team", "estate", "conditions", "select", "windows", "photos",
+    "thread", "week", "category", "live", "large", "gallery", "table", "register", "however", "june",
+    "october", "november", "market", "library", "really", "action", "start", "series", "model", "features",
+    "industry", "plan", "human", "provided", "required", "second", "accessories", "cost", "movie", "forums",
+    "march", "better", "questions", "july", "going", "medical", "test", "friend", "server", "study",
+    "application", "cart", "staff", "articles", "feedback", "again", "play", "looking", "issues", "april",
+    "never", "users", "complete", "street", "topic", "comment", "financial", "things", "working", "against",
+    "standard", "person", "mobile", "less", "blog", "party", "payment", "equipment", "login", "student",
+    "programs", "offers", "legal", "above", "recent", "stores", "side", "problem", "red", "give", "memory",
+    "performance", "social", "quote", "language", "story", "sell", "options", "experience", "rates",
+    "create", "body", "young", "important", "field", "east", "paper", "single", "age", "activities", "club",
+    "example", "girls", "additional", "latest", "something", "road", "gift", "question", "changes", "night",
+    "hard", "pay", "four", "status", "browse", "issue", "range", "building", "seller", "court", "always",
+    "result", "audio", "light", "write", "war", "offer", "blue", "groups", "easy", "given", "files",
+    "event", "release", "analysis", "request", "china", "making", "picture", "needs", "possible",
+    "professional", "month", "major", "star", "areas", "future", "space", "committee", "hand", "sun",
+    "cards", "problems", "london", "meeting", "become", "interest", "child", "keep", "enter", "california",
+    "share", "similar", "garden", "schools", "million", "added", "reference", "companies", "listed",
+    "learning", "energy", "run", "delivery", "popular", "term", "film", "stories", "computers", "journal",
+    "reports", "central", "images", "president", "notice", "original", "head", "radio", "until", "color",
+    "self", "council", "away", "includes", "track", "australia", "discussion", "archive", "others",
+    "entertainment", "agreement", "format", "least", "society", "months", "safety", "trade", "edition",
+    "cars", "messages", "marketing", "further", "updated", "association", "able", "having", "provides",
+    "david", "already", "green", "studies", "close", "common", "drive", "specific", "several", "feb",
+    "living", "collection", "called", "short", "arts", "display", "limited", "powered", "solutions",
+    "director", "daily", "beach", "natural", "whether", "due", "five", "upon", "period", "planning",
+    "database", "says", "official", "weather", "technical", "window", "region", "record", "direct",
+    "microsoft", "conference", "environment", "records", "district", "calendar", "costs", "style", "front",
+    "statement", "update", "parts", "august", "ever", "downloads", "early", "miles", "sound", "resource",
+    "present", "applications", "either", "ago", "document", "works", "material", "written", "federal",
+    "hosting", "rules", "final", "adult", "tickets", "thing", "centre", "requirements", "case", "under",
+    "purchase", "seen", "home", "student", "photo"
+]
+
 
 
 class MyApp(tk.Tk):
@@ -16,9 +86,11 @@ class MyApp(tk.Tk):
         # Initialize the layout
         self.create_widgets()
 
-        # Times
+        # Start and Stop times vars used to calculate word per minute
         self.start_time = None
         self.stop_time = None
+
+        self.text_to_show = ""
 
     def center_window(self):    # This is called by the __init__
         """Centers the window on the screen."""
@@ -89,16 +161,15 @@ class MyApp(tk.Tk):
 
     def on_start(self):
         """Handle the start button click event."""
-        text_to_show = ("happy sad love friend family home go come see look play run big small fast slow help think"
-                        " work eat drink want need find yes no maybe thank sorry tell speak listen read write make do"
-                        " beautiful smart funny kind brave interesting loud")
+        # Randomly choose 40 words
+        self.text_to_show = random.sample(TEXT_TO_DISPLAY, 40)
 
         # Define a font with a larger size
         text_font = font.Font(family="Arial", size=14)  # Change "Arial" and 14 as needed
 
         self.fixed_text_area.config(state="normal")  # Allow editing to update
         self.fixed_text_area.delete(1.0, tk.END)  # Clear the current text
-        self.fixed_text_area.insert(tk.END, text_to_show)  # Insert new text
+        self.fixed_text_area.insert(tk.END, self.text_to_show)  # Insert new text
 
         # Apply the font to the entire text
         self.fixed_text_area.tag_configure("large_font", font=text_font)
@@ -134,18 +205,28 @@ class MyApp(tk.Tk):
         type_time = (type_time.total_seconds() * 1000)
         print(f"Your time: {type_time:.0f}")
 
+        # Get the words and check if the words are written correctly and count only valid words
         text_input = self.long_input_area.get("1.0", tk.END)  # Get all text from the Text widget
         print(text_input)
 
         words = text_input.split()
-        number_of_words = len(words)
-        print(number_of_words)
+        correct_words = self.text_to_show
+        numer_of_correct_words = 0
 
-        words_per_minute = int((number_of_words / type_time) * 60000)
+        # Checks word by word if they are correctly typed
+        for i in range(len(correct_words)):
+            try:
+                if correct_words[i] == words[i]:
+                    numer_of_correct_words += 1
+            except IndexError:
+                pass
+        print(numer_of_correct_words)
+
+        # Calculate words per minute
+        words_per_minute = int((numer_of_correct_words / type_time) * 60000)
         print(words_per_minute)
 
-        # TODO check if the words are written correctly and count only valid words
-        # TODO add a long ass list of words to choose 40 random words for the textbox
+        # TODO show new window at stop to show correct words and wpm
 
 
 if __name__ == "__main__":
